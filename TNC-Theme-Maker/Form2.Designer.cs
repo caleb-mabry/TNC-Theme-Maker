@@ -1,6 +1,6 @@
 ﻿namespace TNC_Theme_Maker
 {
-    partial class Form1
+    partial class Form2
     {
         /// <summary>
         /// Required designer variable.
@@ -28,34 +28,20 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.themeFile = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // themeFile
-            // 
-            this.themeFile.Location = new System.Drawing.Point(13, 30);
-            this.themeFile.Name = "themeFile";
-            this.themeFile.Size = new System.Drawing.Size(75, 23);
-            this.themeFile.TabIndex = 0;
-            this.themeFile.Text = "Theme File";
-            this.themeFile.UseVisualStyleBackColor = true;
-            this.themeFile.Click += new System.EventHandler(this.themeFile_Click);
-            // 
-            // Form1
+            // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(337, 450);
-            this.Controls.Add(this.themeFile);
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Name = "Form2";
+            this.Text = "Form2";
+            this.Load += new System.EventHandler(this.Form2_Load);
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private System.Windows.Forms.Button themeFile;
     }
 }
-
