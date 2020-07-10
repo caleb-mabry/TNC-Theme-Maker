@@ -3,19 +3,21 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Security;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Text.RegularExpressions;
 
 namespace TNC_Theme_Maker
 {
     public partial class Form1 : Form
     {
-        private ThemeParser themeInformation;
+        private ThemeParser themeParser;
         private Form2 customForm;
-        private string selectedValue;
+        private List<Button> toggleButtons = new List<Button>();
         public Form1()
         {
             InitializeComponent();
@@ -26,13 +28,13 @@ namespace TNC_Theme_Maker
             var option = customForm.Controls[clickedButton.Text];
             if (option.Visible == true)
             {
-                option.Visible = false;
-                customForm.Controls[selectedValue].Hide();
+                customForm.Controls[option.Name].Visible = false;
+                customForm.Controls[option.Name].Hide();
             }
             else
             {
-                option.Visible = true;
-                customForm.Controls[selectedValue].Show();
+                customForm.Controls[option.Name].Visible = true;
+                customForm.Controls[option.Name].Show();
             }
         }
 
@@ -42,45 +44,84 @@ namespace TNC_Theme_Maker
             openFileDialog.Filter = "ini files (*.ini) |*.ini";
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
+                string userSelectFilepath = openFileDialog.FileName; 
                 try
                 {
-                    themeInformation = new ThemeParser(openFileDialog.FileName);
+                    List<String> possibleFilenames = new List<String>();
+                    themeParser = new ThemeParser(userSelectFilepath);
+                    //themeParser.themes = themeParser.themes.OrderBy(x => x.name).ToList();
                     customForm = new Form2();
-                    int position = 0;
-                    int left = 0;
-                    themeInformation.themeSettings = themeInformation.themeSettings.OrderBy(x => x.name).ToList();
-                    foreach (ThemeSetting theme in themeInformation.themeSettings)
+                    int evBgIn = 0;
+                    foreach (Theme theme in themeParser.themes)
                     {
-                        Button showHide = new Button();
-                        showHide.Text = theme.name;
-                        showHide.Top = position;
-                        showHide.Left = left;
-                        showHide.Visible = true;
-                        showHide.Show();
-                        selectedValue = theme.name;
-                        showHide.Click += new EventHandler(this.showHide_Click);
-                        position = 5 + showHide.Height + position;
-                        if (position >= this.Height)
-                        {
-                            position = 0;
-                            left = left + showHide.Width + 5;
-                        }
-                        flowLayoutPanel1.Controls.Add(showHide);
-                        Console.WriteLine(theme.ToString());
-                            RichTextBox newThemeSetting = new RichTextBox();
-                            newThemeSetting.Name = theme.name;
-                            newThemeSetting.Text = theme.name;
-                            newThemeSetting.Left = theme.x1;
-                            newThemeSetting.Top = theme.y1;
-                            newThemeSetting.Width = theme.x2;
-                            newThemeSetting.Height = theme.y2;
-                            newThemeSetting.Visible = true;
-                            customForm.Controls.Add(newThemeSetting);
-                            customForm.Controls[newThemeSetting.Name].BringToFront();
-                            newThemeSetting.Show();
-                    }
-                   
+                        Button themeButton = new Button();
+                        themeButton.Text = theme.name;
+                        themeButton.Name = theme.name;
+                        themeButton.Visible = true;
+                        themeButton.AutoSize = true;
+                        themeButton.Show();
+                        themeButton.Click += new EventHandler(this.showHide_Click);
+                        themeButtonContainer.Controls.Add(themeButton);
 
+                        PictureBox themeImage = new PictureBox();
+                        bool isChild = false;
+                        string noUnderscoreName = theme.name.Replace("_", string.Empty);
+                        string reverseName = string.Join(string.Empty, theme.name.Split('_').Reverse());
+
+                        DirectoryScanner scannedDirectories = new DirectoryScanner(userSelectFilepath);
+                        foreach (string pathName in scannedDirectories.ImageFilepaths)
+                        {
+
+                            if (pathName.Contains(scannedDirectories.LastFolderName + "\\" + theme.name) || pathName.Contains(scannedDirectories.LastFolderName + "\\" + noUnderscoreName) || pathName.Contains(scannedDirectories.LastFolderName + "\\" + reverseName))
+                            {
+
+                                themeImage.Name = theme.name;
+                                themeImage.Left = theme.x1;
+                                themeImage.Top = theme.y1;
+                                themeImage.Width = theme.x2;
+                                themeImage.Height = theme.y2;
+                                themeImage.Visible = true;
+                                themeImage.ImageLocation = pathName;
+                                themeImage.SizeMode = PictureBoxSizeMode.StretchImage;
+                                customForm.Controls.Add(themeImage);
+                                customForm.Controls[themeImage.Name].BringToFront();
+                                treeView1.Nodes.Add(themeImage.Name);
+                                themeImage.Show();
+                                break;
+                            }
+                        }
+                        foreach (TreeNode node in treeView1.Nodes)
+                        {
+                            if (node.Text == "evidence_background")
+                            {
+                                evBgIn = node.Index;
+                            }
+                        }
+                        if (theme.name.Contains("evidence") && !theme.name.Contains("background"))
+                        {
+                            isChild = true;
+                            //customForm.Controls[themeImage.Name];
+                            treeView1.Nodes[evBgIn].Nodes.Add(theme.name);
+                        }
+                        if (themeImage.ImageLocation == null)
+                        {
+                            RichTextBox rtb = new RichTextBox();
+                            rtb.Name = theme.name;
+                            rtb.Text = theme.name;
+                            rtb.Left = theme.x1;
+                            rtb.Top = theme.y1;
+                            rtb.Width = theme.x2;
+                            rtb.Height = theme.y2;
+                            rtb.Visible = true;
+                            treeView1.Nodes.Add(rtb.Name);
+                            customForm.Controls.Add(rtb);
+                            customForm.Controls[rtb.Name].BringToFront();
+                            rtb.Show();
+                        }
+
+
+                    }
+                    
                     customForm.Show();
 
                 }
@@ -93,6 +134,11 @@ namespace TNC_Theme_Maker
         }
 
         private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)
         {
 
         }

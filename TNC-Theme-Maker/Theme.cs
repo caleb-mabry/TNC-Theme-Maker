@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TNC_Theme_Maker
 {
-    class ThemeSetting
+    class Theme
     {
         public string name { get; set; }
         public int x1 { get; set; }
@@ -14,7 +14,7 @@ namespace TNC_Theme_Maker
         public int y1 { get; set; }
         public int y2 { get; set; }
 
-        public ThemeSetting(string settingName, int location1, int location2, int size1, int size2)
+        public Theme(string settingName, int location1, int location2, int size1, int size2)
         {
             this.name = settingName;
             this.x1 = location1;

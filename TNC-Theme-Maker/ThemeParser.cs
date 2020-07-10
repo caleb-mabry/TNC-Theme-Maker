@@ -9,7 +9,8 @@ namespace TNC_Theme_Maker
 {
     class ThemeParser
     {
-        public List<ThemeSetting> themeSettings = new List<ThemeSetting>(); 
+        public List<Theme> themes = new List<Theme>();
+        public List<Theme> EvidenceThemes = new List<Theme>();
         public ThemeParser (string pathToFile)
         {
             string line;
@@ -28,7 +29,16 @@ namespace TNC_Theme_Maker
                         int y1 = Int16.Parse(values[1].Trim());
                         int x2 = Int16.Parse(values[2].Trim());
                         int y2 = Int16.Parse(values[3].Trim());
-                        themeSettings.Add(new ThemeSetting(settingName, x1, y1, x2, y2));
+                        if (settingName.Contains("evidence"))
+                        {
+                            EvidenceThemes.Add(new Theme(settingName, x1, y1, x2, y2));
+
+                        }
+                        else
+                        {
+                            themes.Add(new Theme(settingName, x1, y1, x2, y2));
+
+                        }
                     } catch
                     {
                         Console.WriteLine("Not supported");

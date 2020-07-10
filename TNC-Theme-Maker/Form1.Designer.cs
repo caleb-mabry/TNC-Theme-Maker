@@ -29,15 +29,15 @@
         private void InitializeComponent()
         {
             this.themeFile = new System.Windows.Forms.Button();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.themeButtonContainer = new System.Windows.Forms.FlowLayoutPanel();
+            this.treeView1 = new System.Windows.Forms.TreeView();
             this.SuspendLayout();
             // 
             // themeFile
             // 
-            this.themeFile.Location = new System.Drawing.Point(336, 13);
-            this.themeFile.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.themeFile.Location = new System.Drawing.Point(504, 11);
             this.themeFile.Name = "themeFile";
-            this.themeFile.Size = new System.Drawing.Size(100, 28);
+            this.themeFile.Size = new System.Drawing.Size(75, 23);
             this.themeFile.TabIndex = 0;
             this.themeFile.Text = "Theme File";
             this.themeFile.UseVisualStyleBackColor = true;
@@ -45,20 +45,30 @@
             // 
             // flowLayoutPanel1
             // 
-            this.flowLayoutPanel1.AutoScroll = true;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(13, 13);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(316, 463);
-            this.flowLayoutPanel1.TabIndex = 1;
+            this.themeButtonContainer.AutoScroll = true;
+            this.themeButtonContainer.Location = new System.Drawing.Point(10, 11);
+            this.themeButtonContainer.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.themeButtonContainer.Name = "flowLayoutPanel1";
+            this.themeButtonContainer.Size = new System.Drawing.Size(489, 376);
+            this.themeButtonContainer.TabIndex = 1;
+            this.themeButtonContainer.Paint += new System.Windows.Forms.PaintEventHandler(this.flowLayoutPanel1_Paint);
+            // 
+            // treeView1
+            // 
+            this.treeView1.CheckBoxes = true;
+            this.treeView1.Location = new System.Drawing.Point(620, 11);
+            this.treeView1.Name = "treeView1";
+            this.treeView1.Size = new System.Drawing.Size(322, 376);
+            this.treeView1.TabIndex = 2;
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(449, 554);
-            this.Controls.Add(this.flowLayoutPanel1);
+            this.ClientSize = new System.Drawing.Size(1446, 586);
+            this.Controls.Add(this.treeView1);
+            this.Controls.Add(this.themeButtonContainer);
             this.Controls.Add(this.themeFile);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "Form1";
             this.Text = "Form1";
             this.ResumeLayout(false);
@@ -68,7 +78,8 @@
         #endregion
 
         private System.Windows.Forms.Button themeFile;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.FlowLayoutPanel themeButtonContainer;
+        private System.Windows.Forms.TreeView treeView1;
     }
 }
 
