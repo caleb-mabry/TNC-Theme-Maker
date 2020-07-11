@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DirectoryScanner.cs" />
+    <Compile Include="FontParser.cs" />
     <Compile Include="Form2.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -1,24 +1,21 @@
 ﻿using System;
-using System.IO;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace TNC_Theme_Maker
 {
-    class ThemeParser
+    class FontParser
     {
-        public List<Theme> themes = new List<Theme>();
-        public Dictionary<string, Theme> ThemeDictionary = new Dictionary<string, Theme>();
-        public List<Theme> EvidenceThemes = new List<Theme>();
-        public ThemeParser (string pathToFile)
+        public FontParser(string pathToFile)
         {
             string line;
             StreamReader file = new StreamReader(pathToFile);
-            while((line = file.ReadLine())!= null)
+            while ((line = file.ReadLine()) != null)
             {
-                
+
                 if (line.Contains("="))
                 {
                     string[] split = line.Split('=');
@@ -34,16 +31,17 @@ namespace TNC_Theme_Maker
 
                         if (settingName.Contains("evidence"))
                         {
-                            EvidenceThemes.Add(newTheme);
-                            ThemeDictionary.Add(settingName, newTheme);
+                            //EvidenceThemes.Add(newTheme);
+                            //ThemeDictionary.Add(settingName, newTheme);
 
                         }
                         else
                         {
-                            themes.Add(new Theme(settingName, x1, y1, x2, y2));
-                            ThemeDictionary.Add(settingName, newTheme);
+                            //    themes.Add(new Theme(settingName, x1, y1, x2, y2));
+                            //    ThemeDictionary.Add(settingName, newTheme);
                         }
-                    } catch
+                    }
+                    catch
                     {
                         Console.WriteLine("Not supported");
                     }
@@ -51,4 +49,5 @@ namespace TNC_Theme_Maker
             }
         }
     }
-}
+    }
+
