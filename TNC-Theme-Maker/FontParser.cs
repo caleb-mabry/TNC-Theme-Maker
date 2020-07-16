@@ -27,7 +27,8 @@ namespace TNC_Theme_Maker
                         int y1 = Int16.Parse(values[1].Trim());
                         int x2 = Int16.Parse(values[2].Trim());
                         int y2 = Int16.Parse(values[3].Trim());
-                        var newTheme = new Theme(settingName, x1, y1, x2, y2);
+                        Size size = new Size(x1, y1, x2, y2);
+                        var newTheme = new Theme(settingName, size);
 
                         if (settingName.Contains("evidence"))
                         {

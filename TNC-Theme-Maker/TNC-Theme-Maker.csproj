@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Courtroom_Design.cs" />
     <Compile Include="DirectoryScanner.cs" />
     <Compile Include="FontParser.cs" />
     <Compile Include="Form2.cs">
@@ -54,7 +55,11 @@
     <Compile Include="Form2.Designer.cs">
       <DependentUpon>Form2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Size.cs" />
     <Compile Include="ThemeButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ThemeImage.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="ThemeParser.cs" />

@@ -9,22 +9,25 @@ namespace TNC_Theme_Maker
     class Theme
     {
         public string name { get; set; }
-        public int x1 { get; set; }
-        public int x2 { get; set; }
-        public int y1 { get; set; }
-        public int y2 { get; set; }
+        public Size Size { get; set; }
+        public List<Theme> children = new List<Theme>();
 
-        public Theme(string settingName, int location1, int location2, int size1, int size2)
+
+        public Theme(string settingName, Size size)
         {
             this.name = settingName;
-            this.x1 = location1;
-            this.y1 = location2;
-            this.x2 = size1;
-            this.y2 = size2;
+            Size = size;
+        }
+        public void SetParent(Theme parent)
+        {
+            parent.children.Add(this);
+            Size parentSize = parent.Size;
+            Size.Top += parentSize.Top;
+            Size.Left += parentSize.Left;
         }
         public override string ToString()
         {
-            return $"Setting Name: {this.name}\nLocation: {x1}, {y1}\nSize: {x2}, {y2}";
+            return $"Setting Name: {this.name}\nLocation: {Size.Left}, {Size.Width}\nSize: {Size.Top}, {Size.Height}";
         }
     }
 }

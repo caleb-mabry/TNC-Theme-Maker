@@ -45,6 +45,10 @@
             this.selectedImageLabel = new System.Windows.Forms.Label();
             this.forwardButton = new System.Windows.Forms.Button();
             this.backwardsButton = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.currentIndexLabel = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.totalIndexLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.leftNumberPicker)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.topNumberPicker)).BeginInit();
             this.locationGroup.SuspendLayout();
@@ -221,7 +225,7 @@
             // visibleCheckbox
             // 
             this.visibleCheckbox.AutoSize = true;
-            this.visibleCheckbox.Location = new System.Drawing.Point(363, 223);
+            this.visibleCheckbox.Location = new System.Drawing.Point(628, 227);
             this.visibleCheckbox.Name = "visibleCheckbox";
             this.visibleCheckbox.Size = new System.Drawing.Size(56, 17);
             this.visibleCheckbox.TabIndex = 9;
@@ -239,9 +243,9 @@
             // 
             // forwardButton
             // 
-            this.forwardButton.Location = new System.Drawing.Point(363, 258);
+            this.forwardButton.Location = new System.Drawing.Point(363, 236);
             this.forwardButton.Name = "forwardButton";
-            this.forwardButton.Size = new System.Drawing.Size(100, 23);
+            this.forwardButton.Size = new System.Drawing.Size(96, 23);
             this.forwardButton.TabIndex = 11;
             this.forwardButton.Text = "Forward";
             this.forwardButton.UseVisualStyleBackColor = true;
@@ -249,18 +253,62 @@
             // 
             // backwardsButton
             // 
-            this.backwardsButton.Location = new System.Drawing.Point(534, 258);
+            this.backwardsButton.Location = new System.Drawing.Point(363, 265);
             this.backwardsButton.Name = "backwardsButton";
             this.backwardsButton.Size = new System.Drawing.Size(96, 23);
             this.backwardsButton.TabIndex = 12;
             this.backwardsButton.Text = "Backwards";
             this.backwardsButton.UseVisualStyleBackColor = true;
+            this.backwardsButton.Click += new System.EventHandler(this.backwardsButton_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(479, 233);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(47, 13);
+            this.label1.TabIndex = 13;
+            this.label1.Text = "Position ";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label1.Click += new System.EventHandler(this.label1_Click);
+            // 
+            // currentIndexLabel
+            // 
+            this.currentIndexLabel.AutoSize = true;
+            this.currentIndexLabel.Location = new System.Drawing.Point(476, 246);
+            this.currentIndexLabel.Name = "currentIndexLabel";
+            this.currentIndexLabel.Size = new System.Drawing.Size(13, 13);
+            this.currentIndexLabel.TabIndex = 14;
+            this.currentIndexLabel.Text = "0";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(495, 246);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(12, 13);
+            this.label3.TabIndex = 15;
+            this.label3.Text = "/";
+            this.label3.Click += new System.EventHandler(this.label3_Click);
+            // 
+            // totalIndexLabel
+            // 
+            this.totalIndexLabel.AutoSize = true;
+            this.totalIndexLabel.Location = new System.Drawing.Point(513, 246);
+            this.totalIndexLabel.Name = "totalIndexLabel";
+            this.totalIndexLabel.Size = new System.Drawing.Size(13, 13);
+            this.totalIndexLabel.TabIndex = 16;
+            this.totalIndexLabel.Text = "0";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(775, 586);
+            this.Controls.Add(this.totalIndexLabel);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.currentIndexLabel);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.backwardsButton);
             this.Controls.Add(this.forwardButton);
             this.Controls.Add(this.selectedImageLabel);
@@ -305,6 +353,10 @@
         private System.Windows.Forms.Label selectedImageLabel;
         private System.Windows.Forms.Button forwardButton;
         private System.Windows.Forms.Button backwardsButton;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label currentIndexLabel;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label totalIndexLabel;
     }
 }
 
