@@ -49,6 +49,7 @@
             this.currentIndexLabel = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.totalIndexLabel = new System.Windows.Forms.Label();
+            this.saveButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.leftNumberPicker)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.topNumberPicker)).BeginInit();
             this.locationGroup.SuspendLayout();
@@ -75,6 +76,7 @@
             this.treeView1.Name = "treeView1";
             this.treeView1.Size = new System.Drawing.Size(322, 376);
             this.treeView1.TabIndex = 2;
+            this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
             // 
             // leftNumberPicker
             // 
@@ -270,7 +272,6 @@
             this.label1.TabIndex = 13;
             this.label1.Text = "Position ";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // currentIndexLabel
             // 
@@ -289,7 +290,6 @@
             this.label3.Size = new System.Drawing.Size(12, 13);
             this.label3.TabIndex = 15;
             this.label3.Text = "/";
-            this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
             // totalIndexLabel
             // 
@@ -300,11 +300,22 @@
             this.totalIndexLabel.TabIndex = 16;
             this.totalIndexLabel.Text = "0";
             // 
+            // saveButton
+            // 
+            this.saveButton.Location = new System.Drawing.Point(229, 10);
+            this.saveButton.Name = "saveButton";
+            this.saveButton.Size = new System.Drawing.Size(105, 23);
+            this.saveButton.TabIndex = 17;
+            this.saveButton.Text = "Save Theme";
+            this.saveButton.UseVisualStyleBackColor = true;
+            this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(775, 586);
+            this.Controls.Add(this.saveButton);
             this.Controls.Add(this.totalIndexLabel);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.currentIndexLabel);
@@ -319,7 +330,7 @@
             this.Controls.Add(this.treeView1);
             this.Controls.Add(this.themeFile);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "w";
             ((System.ComponentModel.ISupportInitialize)(this.leftNumberPicker)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.topNumberPicker)).EndInit();
             this.locationGroup.ResumeLayout(false);
@@ -357,6 +368,7 @@
         private System.Windows.Forms.Label currentIndexLabel;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label totalIndexLabel;
+        private System.Windows.Forms.Button saveButton;
     }
 }
 

@@ -27,7 +27,7 @@ namespace TNC_Theme_Maker
         }
         public override string ToString()
         {
-            return $"Setting Name: {this.name}\nLocation: {Size.Left}, {Size.Width}\nSize: {Size.Top}, {Size.Height}";
+            return $"{this.name} = {Size.Left}, {Size.Top}, {Size.Width}, {Size.Height}";
         }
     }
 }

@@ -16,16 +16,21 @@ namespace TNC_Theme_Maker
     public partial class Form1 : Form
     {
         private ThemeParser themeParser;
-        private int temp;
         private Control selectedControl;
         private Dictionary<string, PictureBox> DisplayedImageThemes = new Dictionary<string, PictureBox>();
         private Dictionary<string, RichTextBox> DisplayedRTFThemes = new Dictionary<string, RichTextBox>();
         public Form customForm = new Form2();
-
+        
         private List<Button> toggleButtons = new List<Button>();
         public Form1()
         {
             InitializeComponent();
+            customForm.FormClosed += new FormClosedEventHandler(cleanupForm2Close);
+
+        }
+        private void cleanupForm2Close(object sender, EventArgs e)
+        {
+
         }
         private void displayInformation(object sender, EventArgs e)
         {
@@ -88,6 +93,8 @@ namespace TNC_Theme_Maker
 
         private void themeFile_Click(object sender, EventArgs e)
         {
+            this.DisplayedImageThemes.Clear();
+            this.DisplayedRTFThemes.Clear();
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "ini files (*.ini) |*.ini";
             if (openFileDialog.ShowDialog() == DialogResult.OK)
@@ -96,7 +103,6 @@ namespace TNC_Theme_Maker
                 try
                 {
                     themeParser = new ThemeParser(userSelectFilepath);
-                    totalIndexLabel.Text = themeParser.ThemeDictionary.Count.ToString();
                     foreach(var theme in themeParser.themeImages)
                     {
                         theme.Click += new EventHandler(this.displayInformation);
@@ -115,6 +121,7 @@ namespace TNC_Theme_Maker
                     {
                         Theme theme = themeParser.ThemeDictionary[key];
                         treeView1.Nodes.Add(theme.name, theme.name);
+                        treeView1.Nodes[theme.name].Checked = true;
                         if (theme.children.Count > 0)
                         {
                             foreach (var childTheme in theme.children)
@@ -130,6 +137,8 @@ namespace TNC_Theme_Maker
                             }
                         }
                     }
+                    totalIndexLabel.Text = (customForm.Controls.Count - 1).ToString();
+                    treeView1.AfterCheck += new TreeViewEventHandler(treeChangeCheck);
 
                     customForm.Show();
 
@@ -139,6 +148,17 @@ namespace TNC_Theme_Maker
                     MessageBox.Show($"Security error.\n\nError message: {ex.Message}\n\n" +
                     $"Details:\n\n{ex.StackTrace}");
                 }
+            }
+        }
+        private void treeChangeCheck(object sender, TreeViewEventArgs e)
+        {
+            bool isChecked = e.Node.Checked;
+            if (isChecked)
+            {
+                customForm.Controls[e.Node.Text].Show();
+            } else
+            {
+                customForm.Controls[e.Node.Text].Hide();
             }
         }
         private void topNumberPicker_ValueChanged(object sender, EventArgs e)
@@ -183,27 +203,123 @@ namespace TNC_Theme_Maker
         private void button1_Click(object sender, EventArgs e)
         {
             int indexOfControl = customForm.Controls.GetChildIndex(selectedControl);
+
             customForm.Controls.SetChildIndex(selectedControl, indexOfControl - 1);
+            MoveUp(treeView1.Nodes[selectedControl.Name]);
+
+            Console.WriteLine(indexOfControl);
             currentIndexLabel.Text = customForm.Controls.GetChildIndex(selectedControl).ToString();
 
         }
-
         private void backwardsButton_Click(object sender, EventArgs e)
         {
             int indexOfControl = customForm.Controls.GetChildIndex(selectedControl);
-            customForm.Controls.SetChildIndex(selectedControl, indexOfControl + 1);
+            MoveDown(treeView1.Nodes[selectedControl.Name]);
+            if (indexOfControl + 1 == customForm.Controls.Count)
+            {
+                customForm.Controls.SetChildIndex(selectedControl, 0);
+            }
+            else
+            {
+                customForm.Controls.SetChildIndex(selectedControl, indexOfControl + 1);
+            }
             currentIndexLabel.Text = customForm.Controls.GetChildIndex(selectedControl).ToString();
 
         }
-
-        private void label1_Click(object sender, EventArgs e)
+        // Code pulled from
+        // https://stackoverflow.com/questions/2203975/move-node-in-tree-up-or-down
+        private void MoveDown(TreeNode node)
         {
-
+            TreeNode parent = node.Parent;
+            TreeView view = node.TreeView;
+            if (parent != null)
+            {
+                int index = parent.Nodes.IndexOf(node);
+                if (index < parent.Nodes.Count - 1)
+                {
+                    parent.Nodes.RemoveAt(index);
+                    parent.Nodes.Insert(index + 1, node);
+                }
+            }
+            else if (view != null && view.Nodes.Contains(node)) //root node
+            {
+                int index = view.Nodes.IndexOf(node);
+                if (index < view.Nodes.Count - 1)
+                {
+                    view.Nodes.RemoveAt(index);
+                    view.Nodes.Insert(index + 1, node);
+                }
+            }
         }
 
-        private void label3_Click(object sender, EventArgs e)
+        // Code pulled from
+        // https://stackoverflow.com/questions/2203975/move-node-in-tree-up-or-down
+        private void MoveUp(TreeNode node)
         {
+            TreeNode parent = node.Parent;
+            TreeView view = node.TreeView;
+            if (parent != null)
+            {
+                int index = parent.Nodes.IndexOf(node);
+                if (index > 0)
+                {
+                    parent.Nodes.RemoveAt(index);
+                    parent.Nodes.Insert(index - 1, node);
+                }
+            }
+            else if (node.TreeView.Nodes.Contains(node)) //root node
+            {
+                int index = view.Nodes.IndexOf(node);
+                if (index > 0)
+                {
+                    view.Nodes.RemoveAt(index);
+                    view.Nodes.Insert(index - 1, node);
+                }
+            }
+        }
 
+
+
+        private void saveButton_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            saveFileDialog1.FileName = "New_Theme.ini";
+            saveFileDialog1.Filter = "INI File|*.ini";
+            saveFileDialog1.Title = "Save INI File";
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                StreamWriter writer = new StreamWriter(saveFileDialog1.OpenFile());
+                foreach (Control theme in customForm.Controls)
+                {
+                    writer.WriteLine($"{theme.Name} = {theme.Left}, {theme.Top}, {theme.Width}, {theme.Height}");
+                }
+                // Code to write the stream goes here.
+                writer.Close();
+            }
+        }
+
+        private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            selectedControl = customForm.Controls[treeView1.SelectedNode.Name];
+            
+            this.topNumberPicker.Value = selectedControl.Top;
+            this.leftNumberPicker.Value = selectedControl.Left;
+            this.widthNumberPicker.Value = selectedControl.Width;
+            this.heightNumberPicker.Value = selectedControl.Height;
+            this.selectedImageLabel.Text = selectedControl.Name;
+            if (selectedControl is PictureBox)
+            {
+                PictureBox selectedControl = (PictureBox)customForm.Controls[treeView1.SelectedNode.Name];
+                this.selectedImage.ImageLocation = selectedControl.ImageLocation;
+            } else
+            {
+                this.selectedImage.ImageLocation = null;
+            }
+
+
+
+            Console.WriteLine(treeView1.SelectedNode);
         }
     }
+    
 }

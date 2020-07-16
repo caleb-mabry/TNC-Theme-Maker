@@ -18,13 +18,13 @@ namespace TNC_Theme_Maker
         private readonly string[] chatboxChildren = new string[] { "showname", "message" };
         private readonly string[] evidenceChildren = new string[] { "evidence_new", "evidence_save", "evidence_load", "evidence_name", "evidence_buttons", "evidence_overlay", "evidence_edit_name", "evidence_delete", "evidence_update", "evidence_image", "evidence_image_name", "evidence_image_button", "evidence_x", "evidence_description", "evidence_left", "evidence_right", "evidence_present", "right_evidence_icon", "left_evidence_icon" };
         private readonly string[] charChildren = new string[] { "char_select_left", "char_select_right", "char_buttons" };
-        public ThemeParser (string pathToFile)
+        public ThemeParser(string pathToFile)
         {
             string line;
             StreamReader file = new StreamReader(pathToFile);
-            while((line = file.ReadLine())!= null)
+            while ((line = file.ReadLine()) != null)
             {
-                
+
                 if (line.Contains("="))
                 {
                     string[] split = line.Split('=');
@@ -39,7 +39,8 @@ namespace TNC_Theme_Maker
                         Size size = new Size(left, top, width, height);
                         var newTheme = new Theme(settingName, size);
                         ThemeDictionary.Add(settingName, newTheme);
-                    } catch
+                    }
+                    catch
                     {
                         Console.WriteLine("Not supported");
                     }
@@ -104,7 +105,7 @@ namespace TNC_Theme_Maker
                     textBoxes.Add(rtb);
                 }
             }
-            foreach(var key in usedKeys)
+            foreach (var key in usedKeys)
             {
                 ThemeDictionary.Remove(key);
             }
