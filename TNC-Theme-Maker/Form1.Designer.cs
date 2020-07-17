@@ -3,11 +3,6 @@
     partial class Form1
     {
         /// <summary>
-        /// Required designer variable.
-        /// </summary>
-        private System.ComponentModel.IContainer components = null;
-
-        /// <summary>
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
@@ -330,7 +325,6 @@
             this.Controls.Add(this.locationGroup);
             this.Controls.Add(this.treeView1);
             this.Controls.Add(this.themeFile);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.Text = "Theme Designer";
             ((System.ComponentModel.ISupportInitialize)(this.leftNumberPicker)).EndInit();
@@ -348,6 +342,11 @@
         }
 
         #endregion
+
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
 
         private System.Windows.Forms.Button themeFile;
         private System.Windows.Forms.TreeView treeView1;
