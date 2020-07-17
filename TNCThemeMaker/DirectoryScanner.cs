@@ -14,7 +14,7 @@ namespace TNCThemeMaker
         {
 
             LastFolderName = Path.GetFileName(Path.GetDirectoryName(iniFilepath));
-            foreach (string filepath in Directory.EnumerateFiles(Path.GetDirectoryName(iniFilepath), $"*.png", SearchOption.AllDirectories))
+            foreach (var filepath in Directory.EnumerateFiles(Path.GetDirectoryName(iniFilepath), $"*.png", SearchOption.AllDirectories))
             {
                     ImageFilepaths.Add(filepath);
             }

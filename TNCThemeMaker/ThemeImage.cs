@@ -1,16 +1,22 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace TNCThemeMaker
 {
     class ThemeImage : PictureBox
     {
-        public ThemeImage(string themeName, Size size)
+        public ThemeImage(string themeName, Point location, Size size)
         {
-            this.Top = size.Top;
-            this.Left = size.Left;
-            this.Width = size.Width;
-            this.Height = size.Height;
-            this.Name = themeName;
+            if (themeName == null)
+                throw new ArgumentNullException(nameof(themeName));
+
+            Name = themeName;
+
+            Top = location.Y;
+            Left = location.X;
+            Width = size.Width;
+            Height = size.Height;
         }
     }
 }

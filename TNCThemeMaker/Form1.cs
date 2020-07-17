@@ -30,7 +30,7 @@ namespace TNCThemeMaker
         }
         private void DisplayInformation(object sender, EventArgs e)
         {
-            PictureBox clickedImage = (PictureBox)sender;
+            var clickedImage = (PictureBox)sender;
             treeView1.SelectedNode = treeView1.Nodes[clickedImage.Name];
             this._selectedControl = new RichTextBox();
             this.selectedImage.ImageLocation = clickedImage.ImageLocation;
@@ -52,7 +52,7 @@ namespace TNCThemeMaker
 
         private void DisplayRtfInformation(object sender, EventArgs e)
         {
-            RichTextBox clickedImage = (RichTextBox)sender;
+            var clickedImage = (RichTextBox)sender;
             treeView1.SelectedNode = treeView1.Nodes[clickedImage.Name];
 
             this._selectedControl = new PictureBox();
@@ -82,11 +82,11 @@ namespace TNCThemeMaker
         {
             this._displayedImageThemes.Clear();
             this._displayedRtfThemes.Clear();
-            OpenFileDialog openFileDialog = new OpenFileDialog();
+            var openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "ini files (*.ini) |*.ini";
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                string userSelectFilepath = openFileDialog.FileName;
+                var userSelectFilepath = openFileDialog.FileName;
                 try
                 {
                     _themeParser = new ThemeParser(userSelectFilepath);
@@ -106,7 +106,7 @@ namespace TNCThemeMaker
                     _themeParser.ThemeDictionary.OrderBy(x => x.Key);
                     foreach (var key in _themeParser.ThemeDictionary.Keys)
                     {
-                        Theme theme = _themeParser.ThemeDictionary[key];
+                        var theme = _themeParser.ThemeDictionary[key];
                         treeView1.Nodes.Add(theme.Name, theme.Name);
                         treeView1.Nodes[theme.Name].Checked = true;
                         if (theme.Children.Count > 0)
@@ -141,7 +141,7 @@ namespace TNCThemeMaker
         }
         private void TreeChangeCheck(object sender, TreeViewEventArgs e)
         {
-            bool isChecked = e.Node.Checked;
+            var isChecked = e.Node.Checked;
             treeView1.SelectedNode = e.Node;
             if (isChecked)
             {
@@ -191,7 +191,7 @@ namespace TNCThemeMaker
 
         private void visibleCheckbox_CheckedChanged(object sender, EventArgs e)
         {
-            TreeNode possibleParent = treeView1.SelectedNode.Parent;
+            var possibleParent = treeView1.SelectedNode.Parent;
             Console.WriteLine((bool) visibleCheckbox.Checked);
             if (visibleCheckbox.Checked)
             {
@@ -224,7 +224,7 @@ namespace TNCThemeMaker
 
         private void button1_Click(object sender, EventArgs e)
         {
-            int indexOfControl = CustomForm.Controls.GetChildIndex(_selectedControl);
+            var indexOfControl = CustomForm.Controls.GetChildIndex(_selectedControl);
             //MoveUp(treeView1.Nodes[selectedControl.Name]);
             CustomForm.Controls.SetChildIndex(_selectedControl, indexOfControl - 1);
             currentIndexLabel.Text = CustomForm.Controls.GetChildIndex(_selectedControl).ToString();
@@ -232,7 +232,7 @@ namespace TNCThemeMaker
         }
         private void backwardsButton_Click(object sender, EventArgs e)
         {
-            int indexOfControl = CustomForm.Controls.GetChildIndex(_selectedControl);
+            var indexOfControl = CustomForm.Controls.GetChildIndex(_selectedControl);
             //MoveDown(treeView1.Nodes[selectedControl.Name]);
             CustomForm.Controls.SetChildIndex(_selectedControl, indexOfControl + 1);
 
@@ -245,13 +245,13 @@ namespace TNCThemeMaker
 
         private void saveButton_Click(object sender, EventArgs e)
         {
-            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            var saveFileDialog1 = new SaveFileDialog();
             saveFileDialog1.FileName = "New_Theme.ini";
             saveFileDialog1.Filter = "INI File|*.ini";
             saveFileDialog1.Title = "Save INI File";
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                StreamWriter writer = new StreamWriter(saveFileDialog1.OpenFile());
+                var writer = new StreamWriter(saveFileDialog1.OpenFile());
                 foreach (Control theme in CustomForm.Controls)
                 {
                     writer.WriteLine($"{theme.Name} = {theme.Left}, {theme.Top}, {theme.Width}, {theme.Height}");
@@ -274,7 +274,7 @@ namespace TNCThemeMaker
             this.selectedImageLabel.Text = _selectedControl.Name;
             if (_selectedControl is PictureBox)
             {
-                PictureBox selectedControl = (PictureBox)CustomForm.Controls[(string) treeView1.SelectedNode.Name];
+                var selectedControl = (PictureBox)CustomForm.Controls[(string) treeView1.SelectedNode.Name];
                 this.selectedImage.ImageLocation = selectedControl.ImageLocation;
             }
             else
