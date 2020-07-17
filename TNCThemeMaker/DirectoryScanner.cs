@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace TNC_Theme_Maker
+namespace TNCThemeMaker
 {
     class DirectoryScanner
     {
@@ -17,7 +14,7 @@ namespace TNC_Theme_Maker
         {
 
             LastFolderName = Path.GetFileName(Path.GetDirectoryName(iniFilepath));
-            foreach (string filepath in Directory.EnumerateFiles(Path.GetDirectoryName(iniFilepath), $"*.png", SearchOption.AllDirectories))
+            foreach (var filepath in Directory.EnumerateFiles(Path.GetDirectoryName(iniFilepath), $"*.png", SearchOption.AllDirectories))
             {
                     ImageFilepaths.Add(filepath);
             }

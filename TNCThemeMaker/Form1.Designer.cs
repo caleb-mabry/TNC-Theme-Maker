@@ -1,12 +1,7 @@
-﻿namespace TNC_Theme_Maker
+﻿namespace TNCThemeMaker
 {
     partial class Form1
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
-        private System.ComponentModel.IContainer components = null;
-
         /// <summary>
         /// Clean up any resources being used.
         /// </summary>
@@ -28,7 +23,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TNCThemeMaker.Form1));
             this.themeFile = new System.Windows.Forms.Button();
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.leftNumberPicker = new System.Windows.Forms.NumericUpDown();
@@ -330,7 +325,6 @@
             this.Controls.Add(this.locationGroup);
             this.Controls.Add(this.treeView1);
             this.Controls.Add(this.themeFile);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.Text = "Theme Designer";
             ((System.ComponentModel.ISupportInitialize)(this.leftNumberPicker)).EndInit();
@@ -348,6 +342,11 @@
         }
 
         #endregion
+
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
 
         private System.Windows.Forms.Button themeFile;
         private System.Windows.Forms.TreeView treeView1;
