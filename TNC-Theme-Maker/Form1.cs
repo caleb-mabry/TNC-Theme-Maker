@@ -35,6 +35,7 @@ namespace TNC_Theme_Maker
         private void displayInformation(object sender, EventArgs e)
         {
             PictureBox clickedImage = (PictureBox)sender;
+            treeView1.SelectedNode = treeView1.Nodes[clickedImage.Name];
             this.selectedControl = new RichTextBox();
             this.selectedImage.ImageLocation = clickedImage.ImageLocation;
             this.selectedImageLabel.Text = clickedImage.Name;
@@ -56,11 +57,15 @@ namespace TNC_Theme_Maker
         private void displayRTFInformation(object sender, EventArgs e)
         {
             RichTextBox clickedImage = (RichTextBox)sender;
+            treeView1.SelectedNode = treeView1.Nodes[clickedImage.Name];
+
             this.selectedControl = new PictureBox();
             this.selectedImage.ImageLocation = string.Empty;
             this.selectedImageLabel.Text = clickedImage.Name;
             selectedControl = clickedImage;
             visibleCheckbox.Checked = selectedControl.Visible;
+
+
             currentIndexLabel.Text = customForm.Controls.GetChildIndex(selectedControl).ToString();
 
             // Enable Number Pickers and Set Values
@@ -75,21 +80,7 @@ namespace TNC_Theme_Maker
             this.heightNumberPicker.Value = selectedControl.Height;
 
         }
-        private void showHide_Click(object sender, EventArgs e)
-        {
-            Button clickedButton = (Button)sender;
-            var option = customForm.Controls[clickedButton.Text];
-            if (option.Visible == true)
-            {
-                customForm.Controls[option.Name].Visible = false;
-                customForm.Controls[option.Name].Hide();
-            }
-            else
-            {
-                customForm.Controls[option.Name].Visible = true;
-                customForm.Controls[option.Name].Show();
-            }
-        }
+
 
         private void themeFile_Click(object sender, EventArgs e)
         {
@@ -132,6 +123,7 @@ namespace TNC_Theme_Maker
                                 } else
                                 {
                                     treeView1.Nodes[theme.name].Nodes.Add(childTheme.name, childTheme.name);
+                                    treeView1.Nodes[theme.name].Nodes[childTheme.name].Checked = true;
 
                                 }
                             }
@@ -153,12 +145,24 @@ namespace TNC_Theme_Maker
         private void treeChangeCheck(object sender, TreeViewEventArgs e)
         {
             bool isChecked = e.Node.Checked;
+            treeView1.SelectedNode = e.Node;
             if (isChecked)
             {
                 customForm.Controls[e.Node.Text].Show();
-            } else
+                visibleCheckbox.Checked = true;
+                foreach( TreeNode node in treeView1.SelectedNode.Nodes)
+                {
+                    node.Checked = true;
+                }
+            }
+            else
             {
                 customForm.Controls[e.Node.Text].Hide();
+                visibleCheckbox.Checked = false;
+                foreach (TreeNode node in treeView1.SelectedNode.Nodes)
+                {
+                    node.Checked = false;
+                }
             }
         }
         private void topNumberPicker_ValueChanged(object sender, EventArgs e)
@@ -190,93 +194,53 @@ namespace TNC_Theme_Maker
 
         private void visibleCheckbox_CheckedChanged(object sender, EventArgs e)
         {
+            TreeNode possibleParent = treeView1.SelectedNode.Parent;
             Console.WriteLine(visibleCheckbox.Checked);
             if (visibleCheckbox.Checked)
             {
+                if (possibleParent != null)
+                {
+                    treeView1.Nodes[possibleParent.Name].Nodes[selectedControl.Name].Checked = true;
+
+                } else
+                {
+                    treeView1.Nodes[selectedControl.Name].Checked = true;
+
+                }
                 selectedControl.Visible = true;
             } else
             {
-                selectedControl.Visible = false;
+                if (possibleParent != null)
+                {
+                    treeView1.Nodes[possibleParent.Name].Nodes[selectedControl.Name].Checked = false;
+
+                }
+                else
+                {
+                    treeView1.Nodes[selectedControl.Name].Checked = false;
+                    }
+                    selectedControl.Visible = false;
             }
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             int indexOfControl = customForm.Controls.GetChildIndex(selectedControl);
-
+            //MoveUp(treeView1.Nodes[selectedControl.Name]);
             customForm.Controls.SetChildIndex(selectedControl, indexOfControl - 1);
-            MoveUp(treeView1.Nodes[selectedControl.Name]);
-
-            Console.WriteLine(indexOfControl);
             currentIndexLabel.Text = customForm.Controls.GetChildIndex(selectedControl).ToString();
 
         }
         private void backwardsButton_Click(object sender, EventArgs e)
         {
             int indexOfControl = customForm.Controls.GetChildIndex(selectedControl);
-            MoveDown(treeView1.Nodes[selectedControl.Name]);
-            if (indexOfControl + 1 == customForm.Controls.Count)
-            {
-                customForm.Controls.SetChildIndex(selectedControl, 0);
-            }
-            else
-            {
-                customForm.Controls.SetChildIndex(selectedControl, indexOfControl + 1);
-            }
+            //MoveDown(treeView1.Nodes[selectedControl.Name]);
+            customForm.Controls.SetChildIndex(selectedControl, indexOfControl + 1);
+            
             currentIndexLabel.Text = customForm.Controls.GetChildIndex(selectedControl).ToString();
 
         }
-        // Code pulled from
-        // https://stackoverflow.com/questions/2203975/move-node-in-tree-up-or-down
-        private void MoveDown(TreeNode node)
-        {
-            TreeNode parent = node.Parent;
-            TreeView view = node.TreeView;
-            if (parent != null)
-            {
-                int index = parent.Nodes.IndexOf(node);
-                if (index < parent.Nodes.Count - 1)
-                {
-                    parent.Nodes.RemoveAt(index);
-                    parent.Nodes.Insert(index + 1, node);
-                }
-            }
-            else if (view != null && view.Nodes.Contains(node)) //root node
-            {
-                int index = view.Nodes.IndexOf(node);
-                if (index < view.Nodes.Count - 1)
-                {
-                    view.Nodes.RemoveAt(index);
-                    view.Nodes.Insert(index + 1, node);
-                }
-            }
-        }
 
-        // Code pulled from
-        // https://stackoverflow.com/questions/2203975/move-node-in-tree-up-or-down
-        private void MoveUp(TreeNode node)
-        {
-            TreeNode parent = node.Parent;
-            TreeView view = node.TreeView;
-            if (parent != null)
-            {
-                int index = parent.Nodes.IndexOf(node);
-                if (index > 0)
-                {
-                    parent.Nodes.RemoveAt(index);
-                    parent.Nodes.Insert(index - 1, node);
-                }
-            }
-            else if (node.TreeView.Nodes.Contains(node)) //root node
-            {
-                int index = view.Nodes.IndexOf(node);
-                if (index > 0)
-                {
-                    view.Nodes.RemoveAt(index);
-                    view.Nodes.Insert(index - 1, node);
-                }
-            }
-        }
 
 
 
@@ -301,7 +265,9 @@ namespace TNC_Theme_Maker
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
             selectedControl = customForm.Controls[treeView1.SelectedNode.Name];
-            
+            Console.WriteLine(selectedControl.Name);
+            currentIndexLabel.Text = customForm.Controls.GetChildIndex(selectedControl).ToString();
+
             this.topNumberPicker.Value = selectedControl.Top;
             this.leftNumberPicker.Value = selectedControl.Left;
             this.widthNumberPicker.Value = selectedControl.Width;
@@ -315,10 +281,6 @@ namespace TNC_Theme_Maker
             {
                 this.selectedImage.ImageLocation = null;
             }
-
-
-
-            Console.WriteLine(treeView1.SelectedNode);
         }
     }
     

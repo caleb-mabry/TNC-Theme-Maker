@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.themeFile = new System.Windows.Forms.Button();
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.leftNumberPicker = new System.Windows.Forms.NumericUpDown();
@@ -314,7 +315,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(775, 586);
+            this.ClientSize = new System.Drawing.Size(721, 451);
             this.Controls.Add(this.saveButton);
             this.Controls.Add(this.totalIndexLabel);
             this.Controls.Add(this.label3);
@@ -329,8 +330,9 @@
             this.Controls.Add(this.locationGroup);
             this.Controls.Add(this.treeView1);
             this.Controls.Add(this.themeFile);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
-            this.Text = "w";
+            this.Text = "Theme Designer";
             ((System.ComponentModel.ISupportInitialize)(this.leftNumberPicker)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.topNumberPicker)).EndInit();
             this.locationGroup.ResumeLayout(false);
