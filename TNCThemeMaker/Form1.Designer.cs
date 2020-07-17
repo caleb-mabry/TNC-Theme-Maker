@@ -1,4 +1,4 @@
-﻿namespace TNC_Theme_Maker
+﻿namespace TNCThemeMaker
 {
     partial class Form1
     {
@@ -23,7 +23,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TNCThemeMaker.Form1));
             this.themeFile = new System.Windows.Forms.Button();
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.leftNumberPicker = new System.Windows.Forms.NumericUpDown();

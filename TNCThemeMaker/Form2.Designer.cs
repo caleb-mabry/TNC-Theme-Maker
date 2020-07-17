@@ -1,4 +1,4 @@
-﻿namespace TNC_Theme_Maker
+﻿namespace TNCThemeMaker
 {
     partial class Form2
     {
