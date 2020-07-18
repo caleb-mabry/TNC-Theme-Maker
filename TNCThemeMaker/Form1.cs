@@ -12,6 +12,7 @@ namespace TNCThemeMaker
     public partial class Form1 : Form
     {
         private ThemeParser _themeParser;
+
         private Control _selectedControl;
         private Dictionary<string, PictureBox> _displayedImageThemes = new Dictionary<string, PictureBox>();
         private Dictionary<string, RichTextBox> _displayedRtfThemes = new Dictionary<string, RichTextBox>();
@@ -41,7 +42,7 @@ namespace TNCThemeMaker
             this.selectedImageLabel.Text = clickedImage.Name;
             _selectedControl = clickedImage;
             currentIndexLabel.Text = CustomForm.Controls.GetChildIndex(_selectedControl).ToString();
-            visibleCheckbox.Checked = selectedImage.Visible;
+            //visibleCheckbox.Checked = selectedImage.Visible;
 
             // Enable Number Pickers and Set Values
             this.topNumberPicker.Enabled = true;
@@ -63,7 +64,7 @@ namespace TNCThemeMaker
             this.selectedImage.ImageLocation = string.Empty;
             this.selectedImageLabel.Text = clickedImage.Name;
             _selectedControl = clickedImage;
-            visibleCheckbox.Checked = _selectedControl.Visible;
+            //visibleCheckbox.Checked = _selectedControl.Visible;
 
 
             currentIndexLabel.Text = CustomForm.Controls.GetChildIndex(_selectedControl).ToString();
@@ -81,68 +82,6 @@ namespace TNCThemeMaker
 
         }
 
-
-        private void themeFile_Click(object sender, EventArgs e)
-        {
-            this._displayedImageThemes.Clear();
-            this._displayedRtfThemes.Clear();
-            var openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "ini files (*.ini) |*.ini";
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                var userSelectFilepath = openFileDialog.FileName;
-                try
-                {
-                    _themeParser = new ThemeParser(userSelectFilepath);
-                    foreach (var theme in _themeParser.ThemeImages)
-                    {
-                        theme.Click += new EventHandler(this.DisplayInformation);
-                        CustomForm.Controls.Add(theme);
-                        Console.WriteLine(theme.Name);
-                        theme.Show();
-                    }
-                    foreach (var rtb in _themeParser.TextBoxes)
-                    {
-                        rtb.Click += new EventHandler(this.DisplayRtfInformation);
-                        CustomForm.Controls.Add(rtb);
-                        rtb.Show();
-                    }
-                    _themeParser.ThemeDictionary.OrderBy(x => x.Key);
-                    foreach (var key in _themeParser.ThemeDictionary.Keys)
-                    {
-                        var theme = _themeParser.ThemeDictionary[key];
-                        treeView1.Nodes.Add(theme.Name, theme.Name);
-                        treeView1.Nodes[theme.Name].Checked = true;
-                        if (theme.Children.Count > 0)
-                        {
-                            foreach (var childTheme in theme.Children)
-                            {
-                                if (treeView1.Nodes.ContainsKey(childTheme.Name))
-                                {
-                                    treeView1.Nodes.RemoveByKey(childTheme.Name);
-                                }
-                                else
-                                {
-                                    treeView1.Nodes[theme.Name].Nodes.Add(childTheme.Name, childTheme.Name);
-                                    treeView1.Nodes[theme.Name].Nodes[childTheme.Name].Checked = true;
-
-                                }
-                            }
-                        }
-                    }
-                    totalIndexLabel.Text = (CustomForm.Controls.Count - 1).ToString();
-                    treeView1.AfterCheck += new TreeViewEventHandler(TreeChangeCheck);
-
-                    CustomForm.Show();
-
-                }
-                catch (SecurityException ex)
-                {
-                    MessageBox.Show($"Security error.\n\nError message: {ex.Message}\n\n" +
-                    $"Details:\n\n{ex.StackTrace}");
-                }
-            }
-        }
         private void TreeChangeCheck(object sender, TreeViewEventArgs e)
         {
             var isChecked = e.Node.Checked;
@@ -150,7 +89,7 @@ namespace TNCThemeMaker
             if (isChecked)
             {
                 CustomForm.Controls[e.Node.Text].Show();
-                visibleCheckbox.Checked = true;
+                //visibleCheckbox.Checked = true;
                 foreach (TreeNode node in treeView1.SelectedNode.Nodes)
                 {
                     node.Checked = true;
@@ -159,7 +98,7 @@ namespace TNCThemeMaker
             else
             {
                 CustomForm.Controls[e.Node.Text].Hide();
-                visibleCheckbox.Checked = false;
+                //visibleCheckbox.Checked = false;
                 foreach (TreeNode node in treeView1.SelectedNode.Nodes)
                 {
                     node.Checked = false;
@@ -193,38 +132,38 @@ namespace TNCThemeMaker
 
         }
 
-        private void visibleCheckbox_CheckedChanged(object sender, EventArgs e)
-        {
-            var possibleParent = treeView1.SelectedNode.Parent;
-            Console.WriteLine((bool) visibleCheckbox.Checked);
-            if (visibleCheckbox.Checked)
-            {
-                if (possibleParent != null)
-                {
-                    treeView1.Nodes[possibleParent.Name].Nodes[_selectedControl.Name].Checked = true;
+        //private void visibleCheckbox_CheckedChanged(object sender, EventArgs e)
+        //{
+        //    var possibleParent = treeView1.SelectedNode.Parent;
+        //    Console.WriteLine((bool)visibleCheckbox.Checked);
+        //    if (visibleCheckbox.Checked)
+        //    {
+        //        if (possibleParent != null)
+        //        {
+        //            treeView1.Nodes[possibleParent.Name].Nodes[_selectedControl.Name].Checked = true;
 
-                }
-                else
-                {
-                    treeView1.Nodes[_selectedControl.Name].Checked = true;
+        //        }
+        //        else
+        //        {
+        //            treeView1.Nodes[_selectedControl.Name].Checked = true;
 
-                }
-                _selectedControl.Visible = true;
-            }
-            else
-            {
-                if (possibleParent != null)
-                {
-                    treeView1.Nodes[possibleParent.Name].Nodes[_selectedControl.Name].Checked = false;
+        //        }
+        //        _selectedControl.Visible = true;
+        //    }
+        //    else
+        //    {
+        //        if (possibleParent != null)
+        //        {
+        //            treeView1.Nodes[possibleParent.Name].Nodes[_selectedControl.Name].Checked = false;
 
-                }
-                else
-                {
-                    treeView1.Nodes[_selectedControl.Name].Checked = false;
-                }
-                _selectedControl.Visible = false;
-            }
-        }
+        //        }
+        //        else
+        //        {
+        //            treeView1.Nodes[_selectedControl.Name].Checked = false;
+        //        }
+        //        _selectedControl.Visible = false;
+        //    }
+        //}
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -244,30 +183,9 @@ namespace TNCThemeMaker
 
         }
 
-
-
-
-        private void saveButton_Click(object sender, EventArgs e)
-        {
-            var saveFileDialog1 = new SaveFileDialog();
-            saveFileDialog1.FileName = "New_Theme.ini";
-            saveFileDialog1.Filter = "INI File|*.ini";
-            saveFileDialog1.Title = "Save INI File";
-            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
-            {
-                var writer = new StreamWriter(saveFileDialog1.OpenFile());
-                foreach (Control theme in CustomForm.Controls)
-                {
-                    writer.WriteLine($"{theme.Name} = {theme.Left}, {theme.Top}, {theme.Width}, {theme.Height}");
-                }
-                // Code to write the stream goes here.
-                writer.Close();
-            }
-        }
-
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            _selectedControl = CustomForm.Controls[(string) treeView1.SelectedNode.Name];
+            _selectedControl = CustomForm.Controls[(string)treeView1.SelectedNode.Name];
             Console.WriteLine(_selectedControl.Name);
             currentIndexLabel.Text = CustomForm.Controls.GetChildIndex(_selectedControl).ToString();
 
@@ -278,7 +196,7 @@ namespace TNCThemeMaker
             this.selectedImageLabel.Text = _selectedControl.Name;
             if (_selectedControl is PictureBox)
             {
-                var selectedControl = (PictureBox)CustomForm.Controls[(string) treeView1.SelectedNode.Name];
+                var selectedControl = (PictureBox)CustomForm.Controls[(string)treeView1.SelectedNode.Name];
                 this.selectedImage.ImageLocation = selectedControl.ImageLocation;
             }
             else
@@ -286,6 +204,139 @@ namespace TNCThemeMaker
                 this.selectedImage.ImageLocation = null;
             }
         }
-    }
 
+        #region Events
+
+        private void tsmOpen_Click(object sender, EventArgs e)
+        {
+            OpenFile();
+        }
+
+        private void tsmSave_Click(object sender, EventArgs e)
+        {
+            SaveFile();
+        }
+
+        #endregion
+
+        #region Open File
+
+        private void OpenFile()
+        {
+            _displayedImageThemes.Clear();
+            _displayedRtfThemes.Clear();
+
+            var ofd = new OpenFileDialog
+            {
+                Filter = "ini files (*.ini) |*.ini"
+            };
+
+            if (ofd.ShowDialog() != DialogResult.OK)
+            {
+                MessageBox.Show("An error occurred when selecting a file.", "Load error", MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                return;
+            }
+
+            OpenFile(ofd.FileName);
+        }
+
+        private void OpenFile(string file)
+        {
+            try
+            {
+                _themeParser = new ThemeParser(file);
+                foreach (var theme in _themeParser.ThemeImages)
+                {
+                    theme.Click += DisplayInformation;
+                    CustomForm.Controls.Add(theme);
+                    Console.WriteLine(theme.Name);
+                    theme.Show();
+                }
+
+                foreach (var rtb in _themeParser.TextBoxes)
+                {
+                    rtb.Click += DisplayRtfInformation;
+                    CustomForm.Controls.Add(rtb);
+                    rtb.Show();
+                }
+
+                _themeParser.ThemeDictionary.OrderBy(x => x.Key);
+                foreach (var key in _themeParser.ThemeDictionary.Keys)
+                {
+                    var theme = _themeParser.ThemeDictionary[key];
+                    treeView1.Nodes.Add(theme.Name, theme.Name);
+                    treeView1.Nodes[theme.Name].Checked = true;
+                    if (theme.Children.Count > 0)
+                    {
+                        foreach (var childTheme in theme.Children)
+                        {
+                            if (treeView1.Nodes.ContainsKey(childTheme.Name))
+                            {
+                                treeView1.Nodes.RemoveByKey(childTheme.Name);
+                            }
+                            else
+                            {
+                                treeView1.Nodes[theme.Name].Nodes.Add(childTheme.Name, childTheme.Name);
+                                treeView1.Nodes[theme.Name].Nodes[childTheme.Name].Checked = true;
+
+                            }
+                        }
+                    }
+                }
+                totalIndexLabel.Text = (CustomForm.Controls.Count - 1).ToString();
+                treeView1.AfterCheck += TreeChangeCheck;
+
+                CustomForm.Show();
+
+            }
+            catch (SecurityException ex)
+            {
+                MessageBox.Show($"Security error.\n\nError message: {ex.Message}\n\n" +
+                $"Details:\n\n{ex.StackTrace}");
+                return;
+            }
+
+            tsmSave.Enabled = true;
+        }
+
+        #endregion
+
+        #region Save File
+
+        private void SaveFile()
+        {
+            var sfd = new SaveFileDialog
+            {
+                FileName = "NewTheme.ini",
+                Filter = "INI File|*.ini",
+                Title = "Save INI File"
+            };
+
+            if (sfd.ShowDialog() != DialogResult.OK)
+            {
+                MessageBox.Show("An error occurred when selecting the file.", "Save error", MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                return;
+            }
+
+            SaveFile(sfd.FileName);
+        }
+
+        private void SaveFile(string savePath)
+        {
+            var saveStream = File.OpenWrite(savePath);
+
+            var writer = new StreamWriter(saveStream);
+            foreach (Control theme in CustomForm.Controls)
+            {
+                writer.WriteLine($"{theme.Name} = {theme.Left}, {theme.Top}, {theme.Width}, {theme.Height}");
+            }
+
+            // Code to write the stream goes here.
+            writer.Close();
+        }
+
+        #endregion
+    }
 }

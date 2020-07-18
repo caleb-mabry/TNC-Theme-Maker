@@ -23,8 +23,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TNCThemeMaker.Form1));
-            this.themeFile = new System.Windows.Forms.Button();
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.leftNumberPicker = new System.Windows.Forms.NumericUpDown();
             this.topNumberPicker = new System.Windows.Forms.NumericUpDown();
@@ -37,7 +35,6 @@
             this.widthNumberPicker = new System.Windows.Forms.NumericUpDown();
             this.heightNumberPicker = new System.Windows.Forms.NumericUpDown();
             this.selectedImage = new System.Windows.Forms.PictureBox();
-            this.visibleCheckbox = new System.Windows.Forms.CheckBox();
             this.selectedImageLabel = new System.Windows.Forms.Label();
             this.forwardButton = new System.Windows.Forms.Button();
             this.backwardsButton = new System.Windows.Forms.Button();
@@ -45,7 +42,11 @@
             this.currentIndexLabel = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.totalIndexLabel = new System.Windows.Forms.Label();
-            this.saveButton = new System.Windows.Forms.Button();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.tsmFile = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmOpen = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmSave = new System.Windows.Forms.ToolStripMenuItem();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             ((System.ComponentModel.ISupportInitialize)(this.leftNumberPicker)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.topNumberPicker)).BeginInit();
             this.locationGroup.SuspendLayout();
@@ -53,24 +54,20 @@
             ((System.ComponentModel.ISupportInitialize)(this.widthNumberPicker)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.heightNumberPicker)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.selectedImage)).BeginInit();
+            this.menuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // themeFile
-            // 
-            this.themeFile.Location = new System.Drawing.Point(12, 11);
-            this.themeFile.Name = "themeFile";
-            this.themeFile.Size = new System.Drawing.Size(75, 23);
-            this.themeFile.TabIndex = 0;
-            this.themeFile.Text = "Theme File";
-            this.themeFile.UseVisualStyleBackColor = true;
-            this.themeFile.Click += new System.EventHandler(this.themeFile_Click);
             // 
             // treeView1
             // 
             this.treeView1.CheckBoxes = true;
-            this.treeView1.Location = new System.Drawing.Point(12, 40);
+            this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeView1.Location = new System.Drawing.Point(0, 0);
             this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(322, 376);
+            this.treeView1.Size = new System.Drawing.Size(245, 394);
             this.treeView1.TabIndex = 2;
             this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
             // 
@@ -114,11 +111,12 @@
             // 
             // locationGroup
             // 
+            this.locationGroup.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.locationGroup.Controls.Add(this.leftLabel);
             this.locationGroup.Controls.Add(this.topLabel);
             this.locationGroup.Controls.Add(this.topNumberPicker);
             this.locationGroup.Controls.Add(this.leftNumberPicker);
-            this.locationGroup.Location = new System.Drawing.Point(357, 299);
+            this.locationGroup.Location = new System.Drawing.Point(159, 272);
             this.locationGroup.Name = "locationGroup";
             this.locationGroup.Size = new System.Drawing.Size(150, 117);
             this.locationGroup.TabIndex = 5;
@@ -145,11 +143,12 @@
             // 
             // sizeGroup
             // 
+            this.sizeGroup.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.sizeGroup.Controls.Add(this.heightLabel);
             this.sizeGroup.Controls.Add(this.widthLabel);
             this.sizeGroup.Controls.Add(this.widthNumberPicker);
             this.sizeGroup.Controls.Add(this.heightNumberPicker);
-            this.sizeGroup.Location = new System.Drawing.Point(534, 299);
+            this.sizeGroup.Location = new System.Drawing.Point(3, 272);
             this.sizeGroup.Name = "sizeGroup";
             this.sizeGroup.Size = new System.Drawing.Size(150, 117);
             this.sizeGroup.TabIndex = 7;
@@ -214,22 +213,14 @@
             // 
             // selectedImage
             // 
-            this.selectedImage.Location = new System.Drawing.Point(363, 40);
+            this.selectedImage.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.selectedImage.Location = new System.Drawing.Point(3, 3);
             this.selectedImage.Name = "selectedImage";
-            this.selectedImage.Size = new System.Drawing.Size(321, 177);
+            this.selectedImage.Size = new System.Drawing.Size(481, 234);
             this.selectedImage.TabIndex = 8;
             this.selectedImage.TabStop = false;
-            // 
-            // visibleCheckbox
-            // 
-            this.visibleCheckbox.AutoSize = true;
-            this.visibleCheckbox.Location = new System.Drawing.Point(628, 227);
-            this.visibleCheckbox.Name = "visibleCheckbox";
-            this.visibleCheckbox.Size = new System.Drawing.Size(56, 17);
-            this.visibleCheckbox.TabIndex = 9;
-            this.visibleCheckbox.Text = "Visible";
-            this.visibleCheckbox.UseVisualStyleBackColor = true;
-            this.visibleCheckbox.CheckedChanged += new System.EventHandler(this.visibleCheckbox_CheckedChanged);
             // 
             // selectedImageLabel
             // 
@@ -241,7 +232,8 @@
             // 
             // forwardButton
             // 
-            this.forwardButton.Location = new System.Drawing.Point(363, 236);
+            this.forwardButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.forwardButton.Location = new System.Drawing.Point(3, 243);
             this.forwardButton.Name = "forwardButton";
             this.forwardButton.Size = new System.Drawing.Size(96, 23);
             this.forwardButton.TabIndex = 11;
@@ -251,7 +243,8 @@
             // 
             // backwardsButton
             // 
-            this.backwardsButton.Location = new System.Drawing.Point(363, 265);
+            this.backwardsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.backwardsButton.Location = new System.Drawing.Point(105, 243);
             this.backwardsButton.Name = "backwardsButton";
             this.backwardsButton.Size = new System.Drawing.Size(96, 23);
             this.backwardsButton.TabIndex = 12;
@@ -261,8 +254,9 @@
             // 
             // label1
             // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(479, 233);
+            this.label1.Location = new System.Drawing.Point(207, 240);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(47, 13);
             this.label1.TabIndex = 13;
@@ -271,8 +265,9 @@
             // 
             // currentIndexLabel
             // 
+            this.currentIndexLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.currentIndexLabel.AutoSize = true;
-            this.currentIndexLabel.Location = new System.Drawing.Point(476, 246);
+            this.currentIndexLabel.Location = new System.Drawing.Point(207, 253);
             this.currentIndexLabel.Name = "currentIndexLabel";
             this.currentIndexLabel.Size = new System.Drawing.Size(13, 13);
             this.currentIndexLabel.TabIndex = 14;
@@ -280,8 +275,9 @@
             // 
             // label3
             // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(495, 246);
+            this.label3.Location = new System.Drawing.Point(226, 253);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(12, 13);
             this.label3.TabIndex = 15;
@@ -289,42 +285,82 @@
             // 
             // totalIndexLabel
             // 
+            this.totalIndexLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.totalIndexLabel.AutoSize = true;
-            this.totalIndexLabel.Location = new System.Drawing.Point(513, 246);
+            this.totalIndexLabel.Location = new System.Drawing.Point(244, 253);
             this.totalIndexLabel.Name = "totalIndexLabel";
             this.totalIndexLabel.Size = new System.Drawing.Size(13, 13);
             this.totalIndexLabel.TabIndex = 16;
             this.totalIndexLabel.Text = "0";
             // 
-            // saveButton
+            // menuStrip1
             // 
-            this.saveButton.Location = new System.Drawing.Point(229, 10);
-            this.saveButton.Name = "saveButton";
-            this.saveButton.Size = new System.Drawing.Size(105, 23);
-            this.saveButton.TabIndex = 17;
-            this.saveButton.Text = "Save Theme";
-            this.saveButton.UseVisualStyleBackColor = true;
-            this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmFile});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(736, 24);
+            this.menuStrip1.TabIndex = 18;
+            this.menuStrip1.Text = "menuStrip";
+            // 
+            // tsmFile
+            // 
+            this.tsmFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmOpen,
+            this.tsmSave});
+            this.tsmFile.Name = "tsmFile";
+            this.tsmFile.Size = new System.Drawing.Size(37, 20);
+            this.tsmFile.Text = "File";
+            // 
+            // tsmOpen
+            // 
+            this.tsmOpen.Name = "tsmOpen";
+            this.tsmOpen.Size = new System.Drawing.Size(180, 22);
+            this.tsmOpen.Text = "Open";
+            this.tsmOpen.Click += new System.EventHandler(this.tsmOpen_Click);
+            // 
+            // tsmSave
+            // 
+            this.tsmSave.Enabled = false;
+            this.tsmSave.Name = "tsmSave";
+            this.tsmSave.Size = new System.Drawing.Size(180, 22);
+            this.tsmSave.Text = "Save";
+            this.tsmSave.Click += new System.EventHandler(this.tsmSave_Click);
+            // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.Location = new System.Drawing.Point(0, 24);
+            this.splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.treeView1);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.totalIndexLabel);
+            this.splitContainer1.Panel2.Controls.Add(this.locationGroup);
+            this.splitContainer1.Panel2.Controls.Add(this.forwardButton);
+            this.splitContainer1.Panel2.Controls.Add(this.backwardsButton);
+            this.splitContainer1.Panel2.Controls.Add(this.selectedImage);
+            this.splitContainer1.Panel2.Controls.Add(this.sizeGroup);
+            this.splitContainer1.Panel2.Controls.Add(this.label3);
+            this.splitContainer1.Panel2.Controls.Add(this.label1);
+            this.splitContainer1.Panel2.Controls.Add(this.currentIndexLabel);
+            this.splitContainer1.Size = new System.Drawing.Size(736, 394);
+            this.splitContainer1.SplitterDistance = 245;
+            this.splitContainer1.TabIndex = 19;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(721, 451);
-            this.Controls.Add(this.saveButton);
-            this.Controls.Add(this.totalIndexLabel);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.currentIndexLabel);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.backwardsButton);
-            this.Controls.Add(this.forwardButton);
+            this.ClientSize = new System.Drawing.Size(736, 418);
+            this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.selectedImageLabel);
-            this.Controls.Add(this.visibleCheckbox);
-            this.Controls.Add(this.selectedImage);
-            this.Controls.Add(this.sizeGroup);
-            this.Controls.Add(this.locationGroup);
-            this.Controls.Add(this.treeView1);
-            this.Controls.Add(this.themeFile);
+            this.Controls.Add(this.menuStrip1);
+            this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.Text = "Theme Designer";
             ((System.ComponentModel.ISupportInitialize)(this.leftNumberPicker)).EndInit();
@@ -336,6 +372,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.widthNumberPicker)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.heightNumberPicker)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.selectedImage)).EndInit();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            this.splitContainer1.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -347,8 +390,6 @@
         /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
-
-        private System.Windows.Forms.Button themeFile;
         private System.Windows.Forms.TreeView treeView1;
         private System.Windows.Forms.NumericUpDown leftNumberPicker;
         private System.Windows.Forms.NumericUpDown topNumberPicker;
@@ -361,7 +402,6 @@
         private System.Windows.Forms.NumericUpDown widthNumberPicker;
         private System.Windows.Forms.NumericUpDown heightNumberPicker;
         private System.Windows.Forms.PictureBox selectedImage;
-        private System.Windows.Forms.CheckBox visibleCheckbox;
         private System.Windows.Forms.Label selectedImageLabel;
         private System.Windows.Forms.Button forwardButton;
         private System.Windows.Forms.Button backwardsButton;
@@ -369,7 +409,11 @@
         private System.Windows.Forms.Label currentIndexLabel;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label totalIndexLabel;
-        private System.Windows.Forms.Button saveButton;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem tsmFile;
+        private System.Windows.Forms.ToolStripMenuItem tsmOpen;
+        private System.Windows.Forms.ToolStripMenuItem tsmSave;
+        private System.Windows.Forms.SplitContainer splitContainer1;
     }
 }
 
