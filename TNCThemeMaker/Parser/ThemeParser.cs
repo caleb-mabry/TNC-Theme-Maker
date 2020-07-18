@@ -10,15 +10,16 @@ namespace TNCThemeMaker.Parser
     {
         private static readonly ThemeIniParser ThemeIniParser = new ThemeIniParser();
 
+        private readonly string[] _chatboxChildren = { "showname", "message" };
+        private readonly string[] _evidenceChildren = { "evidence_new", "evidence_save", "evidence_load", "evidence_name", "evidence_buttons", "evidence_overlay", "evidence_edit_name", "evidence_delete", "evidence_update", "evidence_image", "evidence_image_name", "evidence_image_button", "evidence_x", "evidence_description", "evidence_left", "evidence_right", "evidence_present", "right_evidence_icon", "left_evidence_icon" };
+        private readonly string[] _charChildren = { "char_select_left", "char_select_right", "char_buttons" };
+
         public IDictionary<string, Theme> ThemeDictionary { get; }
 
         public List<Theme> Themes = new List<Theme>();
         public List<Theme> EvidenceThemes = new List<Theme>();
         public List<ThemeImage> ThemeImages = new List<ThemeImage>();
-        public List<RichTextBox> TextBoxes = new List<RichTextBox>();
-        private readonly string[] _chatboxChildren = { "showname", "message" };
-        private readonly string[] _evidenceChildren = { "evidence_new", "evidence_save", "evidence_load", "evidence_name", "evidence_buttons", "evidence_overlay", "evidence_edit_name", "evidence_delete", "evidence_update", "evidence_image", "evidence_image_name", "evidence_image_button", "evidence_x", "evidence_description", "evidence_left", "evidence_right", "evidence_present", "right_evidence_icon", "left_evidence_icon" };
-        private readonly string[] _charChildren = { "char_select_left", "char_select_right", "char_buttons" };
+        public List<TextBox> TextBoxes { get; } = new List<TextBox>();
 
         public ThemeParser(string pathToFile)
         {
@@ -32,30 +33,29 @@ namespace TNCThemeMaker.Parser
 
         private void LoadThemeControls(IDictionary<string, Theme> values, DirectoryScanner directoryScanner)
         {
-            var usedKeys = new List<string>();
+            // Set parents
             foreach (var key in values.Keys)
             {
-
                 if (_chatboxChildren.Contains(key))
                 {
                     values[key].SetParent(values["chatbox"]);
-                    usedKeys.Add(key);
-
+                    continue;
                 }
-                else if (_evidenceChildren.Contains(key))
+
+                if (_evidenceChildren.Contains(key))
                 {
                     values[key].SetParent(values["evidence_background"]);
-                    usedKeys.Add(key);
+                    continue;
                 }
-                else if (_charChildren.Contains(key))
+
+                if (_charChildren.Contains(key))
                 {
                     values[key].SetParent(values["char_select"]);
-                    usedKeys.Add(key);
+                    continue;
                 }
-                else
-                {
-                    Themes.Add(values[key]);
-                }
+
+                // TODO: Themes contains the same values as ThemeDirectory after this method is done
+                Themes.Add(values[key]);
             }
 
             foreach (var key in values.Keys)
@@ -81,20 +81,22 @@ namespace TNCThemeMaker.Parser
 
                 if (themeImage.ImageLocation == null)
                 {
-                    var rtb = new RichTextBox();
-                    rtb.Name = theme.Name;
-                    rtb.Text = theme.Name;
-                    rtb.Left = theme.Location.X;
-                    rtb.Top = theme.Location.Y;
-                    rtb.Width = theme.Size.Width;
-                    rtb.Height = theme.Size.Height;
-                    rtb.Visible = true;
+                    var rtb = new TextBox
+                    {
+                        Name = theme.Name,
+                        Text = theme.Name,
+                        Left = theme.Location.X,
+                        Top = theme.Location.Y,
+                        Width = theme.Size.Width,
+                        Height = theme.Size.Height,
+                        Visible = true
+                    };
 
                     TextBoxes.Add(rtb);
                 }
             }
 
-            foreach (var key in usedKeys)
+            foreach (var key in values.Where(x => x.Value.Parent != null).ToArray())
             {
                 values.Remove(key);
             }

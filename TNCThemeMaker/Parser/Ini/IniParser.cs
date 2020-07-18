@@ -32,7 +32,8 @@ namespace TNCThemeMaker.Parser.Ini
                 var valueName = valuePair[0].Trim();
                 var value = ParseValue(valueName, valuePair[1]);
 
-                result[valueName] = value;
+                if (value != null)
+                    result[valueName] = value;
             }
 
             return result;

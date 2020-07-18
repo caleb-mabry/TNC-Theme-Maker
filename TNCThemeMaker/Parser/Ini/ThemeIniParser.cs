@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Linq;
 
 namespace TNCThemeMaker.Parser.Ini
 {
@@ -6,6 +7,9 @@ namespace TNCThemeMaker.Parser.Ini
     {
         protected override Theme ParseValue(string name, string value)
         {
+            if (value.Count(z => z == ',') != 3)
+                return null;
+
             var values = value.Split(',');
 
             var x = int.Parse(values[0].Trim());
