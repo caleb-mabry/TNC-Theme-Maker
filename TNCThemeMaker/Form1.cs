@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Security;
 using System.Windows.Forms;
+using TNCThemeMaker.Parser;
 using TNCThemeMaker.Properties;
 
 namespace TNCThemeMaker

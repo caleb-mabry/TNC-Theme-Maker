@@ -1,91 +1,74 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using TNCThemeMaker.Parser.Ini;
 
-namespace TNCThemeMaker
+namespace TNCThemeMaker.Parser
 {
     class ThemeParser
     {
+        private static readonly ThemeIniParser ThemeIniParser = new ThemeIniParser();
+
+        public IDictionary<string, Theme> ThemeDictionary { get; }
+
         public List<Theme> Themes = new List<Theme>();
-        public Dictionary<string, Theme> ThemeDictionary = new Dictionary<string, Theme>();
         public List<Theme> EvidenceThemes = new List<Theme>();
         public List<ThemeImage> ThemeImages = new List<ThemeImage>();
         public List<RichTextBox> TextBoxes = new List<RichTextBox>();
         private readonly string[] _chatboxChildren = { "showname", "message" };
         private readonly string[] _evidenceChildren = { "evidence_new", "evidence_save", "evidence_load", "evidence_name", "evidence_buttons", "evidence_overlay", "evidence_edit_name", "evidence_delete", "evidence_update", "evidence_image", "evidence_image_name", "evidence_image_button", "evidence_x", "evidence_description", "evidence_left", "evidence_right", "evidence_present", "right_evidence_icon", "left_evidence_icon" };
         private readonly string[] _charChildren = { "char_select_left", "char_select_right", "char_buttons" };
+
         public ThemeParser(string pathToFile)
         {
-            string line;
-            var file = new StreamReader(pathToFile);
-            while ((line = file.ReadLine()) != null)
-            {
-                if (!line.Contains("="))
-                    continue;
+            var values = ThemeIniParser.Load(pathToFile);
 
-                var split = line.Split('=');
-                var settingName = split[0].Trim();
-                try
-                {
-                    var values = split[1].Split(',');
-                    var x = short.Parse(values[0].Trim());
-                    var y = short.Parse(values[1].Trim());
-                    var width = short.Parse(values[2].Trim());
-                    var height = short.Parse(values[3].Trim());
+            var directoryScanner = new DirectoryScanner(pathToFile);
+            LoadThemeControls(values, directoryScanner);
 
-                    var location = new Point(x, y);
-                    var size = new Size(width, height);
-                    var theme = new Theme(settingName, location, size);
+            ThemeDictionary = values;
+        }
 
-                    ThemeDictionary.Add(settingName, theme);
-                }
-                catch
-                {
-                    Console.WriteLine("Not supported.");
-                }
-            }
-
+        private void LoadThemeControls(IDictionary<string, Theme> values, DirectoryScanner directoryScanner)
+        {
             var usedKeys = new List<string>();
-            foreach (var key in ThemeDictionary.Keys)
+            foreach (var key in values.Keys)
             {
 
                 if (_chatboxChildren.Contains(key))
                 {
-                    ThemeDictionary[key].SetParent(ThemeDictionary["chatbox"]);
+                    values[key].SetParent(values["chatbox"]);
                     usedKeys.Add(key);
 
                 }
                 else if (_evidenceChildren.Contains(key))
                 {
-                    ThemeDictionary[key].SetParent(ThemeDictionary["evidence_background"]);
+                    values[key].SetParent(values["evidence_background"]);
                     usedKeys.Add(key);
                 }
                 else if (_charChildren.Contains(key))
                 {
-                    ThemeDictionary[key].SetParent(ThemeDictionary["char_select"]);
+                    values[key].SetParent(values["char_select"]);
                     usedKeys.Add(key);
                 }
                 else
                 {
-                    Themes.Add(ThemeDictionary[key]);
+                    Themes.Add(values[key]);
                 }
             }
 
-            foreach (var key in ThemeDictionary.Keys)
+            foreach (var key in values.Keys)
             {
-                var theme = ThemeDictionary[key];
+                var theme = values[key];
                 var themeImage = new ThemeImage(theme.Name, theme.Location, theme.Size);
 
                 var noUnderscoreName = theme.Name.Replace("_", string.Empty);
                 var reverseName = string.Join(string.Empty, theme.Name.Split('_').Reverse());
 
-                var scannedDirectories = new DirectoryScanner(pathToFile);
-                foreach (var pathName in scannedDirectories.ImageFilepaths)
+                foreach (var pathName in directoryScanner.ImageFilepaths)
                 {
-                    if (pathName.Contains(theme.Name) || pathName.Contains(scannedDirectories.LastFolderName + "\\" + noUnderscoreName) || pathName.Contains(scannedDirectories.LastFolderName + "\\" + reverseName))
+                    if (pathName.Contains(theme.Name) || pathName.Contains(directoryScanner.LastFolderName + "\\" + noUnderscoreName) || pathName.Contains(directoryScanner.LastFolderName + "\\" + reverseName))
                     {
                         Console.WriteLine("Inside");
                         themeImage.Visible = true;
@@ -113,7 +96,7 @@ namespace TNCThemeMaker
 
             foreach (var key in usedKeys)
             {
-                ThemeDictionary.Remove(key);
+                values.Remove(key);
             }
         }
     }
