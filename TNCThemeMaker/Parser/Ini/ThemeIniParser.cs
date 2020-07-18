@@ -5,6 +5,7 @@ namespace TNCThemeMaker.Parser.Ini
 {
     class ThemeIniParser : IniParser<Theme>
     {
+        // TODO: Return objects to parse more than one type of value
         protected override Theme ParseValue(string name, string value)
         {
             if (value.Count(z => z == ',') != 3)

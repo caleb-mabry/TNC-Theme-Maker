@@ -18,17 +18,20 @@ namespace TNCThemeMaker
         public Form CustomForm = new Form2();
 
         private List<Button> _toggleButtons = new List<Button>();
+
         public Form1()
         {
             InitializeComponent();
             Icon = Resources.icon;
-            CustomForm.FormClosed += new FormClosedEventHandler(CleanupForm2Close);
+            CustomForm.FormClosed += CleanupForm2Close;
 
         }
+
         private void CleanupForm2Close(object sender, EventArgs e)
         {
 
         }
+
         private void DisplayInformation(object sender, EventArgs e)
         {
             var clickedImage = (PictureBox)sender;

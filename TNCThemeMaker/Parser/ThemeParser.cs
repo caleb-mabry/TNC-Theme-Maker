@@ -31,6 +31,7 @@ namespace TNCThemeMaker.Parser
             ThemeDictionary = values;
         }
 
+        // TODO: Handle other value types than point,size value pairs
         private void LoadThemeControls(IDictionary<string, Theme> values, DirectoryScanner directoryScanner)
         {
             // Set parents
