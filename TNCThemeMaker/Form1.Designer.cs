@@ -216,7 +216,7 @@
             this.selectedImage.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.selectedImage.Location = new System.Drawing.Point(3, 3);
+            this.selectedImage.Location = new System.Drawing.Point(2, 3);
             this.selectedImage.Name = "selectedImage";
             this.selectedImage.Size = new System.Drawing.Size(481, 234);
             this.selectedImage.TabIndex = 8;
@@ -225,10 +225,10 @@
             // selectedImageLabel
             // 
             this.selectedImageLabel.AutoSize = true;
-            this.selectedImageLabel.Location = new System.Drawing.Point(363, 20);
+            this.selectedImageLabel.Location = new System.Drawing.Point(263, 243);
             this.selectedImageLabel.Name = "selectedImageLabel";
             this.selectedImageLabel.Size = new System.Drawing.Size(0, 13);
-            this.selectedImageLabel.TabIndex = 10;
+            this.selectedImageLabel.TabIndex = 17;
             // 
             // forwardButton
             // 
@@ -315,7 +315,7 @@
             // tsmOpen
             // 
             this.tsmOpen.Name = "tsmOpen";
-            this.tsmOpen.Size = new System.Drawing.Size(180, 22);
+            this.tsmOpen.Size = new System.Drawing.Size(103, 22);
             this.tsmOpen.Text = "Open";
             this.tsmOpen.Click += new System.EventHandler(this.tsmOpen_Click);
             // 
@@ -323,7 +323,7 @@
             // 
             this.tsmSave.Enabled = false;
             this.tsmSave.Name = "tsmSave";
-            this.tsmSave.Size = new System.Drawing.Size(180, 22);
+            this.tsmSave.Size = new System.Drawing.Size(103, 22);
             this.tsmSave.Text = "Save";
             this.tsmSave.Click += new System.EventHandler(this.tsmSave_Click);
             // 
@@ -348,6 +348,7 @@
             this.splitContainer1.Panel2.Controls.Add(this.label3);
             this.splitContainer1.Panel2.Controls.Add(this.label1);
             this.splitContainer1.Panel2.Controls.Add(this.currentIndexLabel);
+            this.splitContainer1.Panel2.Controls.Add(this.selectedImageLabel);
             this.splitContainer1.Size = new System.Drawing.Size(736, 394);
             this.splitContainer1.SplitterDistance = 245;
             this.splitContainer1.TabIndex = 19;
@@ -358,7 +359,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(736, 418);
             this.Controls.Add(this.splitContainer1);
-            this.Controls.Add(this.selectedImageLabel);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";

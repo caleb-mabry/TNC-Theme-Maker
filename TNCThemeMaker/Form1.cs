@@ -23,6 +23,7 @@ namespace TNCThemeMaker
         public Form1()
         {
             InitializeComponent();
+
             Icon = Resources.icon;
             CustomForm.FormClosed += CleanupForm2Close;
 
@@ -131,39 +132,6 @@ namespace TNCThemeMaker
             this._selectedControl.Height = (int)this.heightNumberPicker.Value;
 
         }
-
-        //private void visibleCheckbox_CheckedChanged(object sender, EventArgs e)
-        //{
-        //    var possibleParent = treeView1.SelectedNode.Parent;
-        //    Console.WriteLine((bool)visibleCheckbox.Checked);
-        //    if (visibleCheckbox.Checked)
-        //    {
-        //        if (possibleParent != null)
-        //        {
-        //            treeView1.Nodes[possibleParent.Name].Nodes[_selectedControl.Name].Checked = true;
-
-        //        }
-        //        else
-        //        {
-        //            treeView1.Nodes[_selectedControl.Name].Checked = true;
-
-        //        }
-        //        _selectedControl.Visible = true;
-        //    }
-        //    else
-        //    {
-        //        if (possibleParent != null)
-        //        {
-        //            treeView1.Nodes[possibleParent.Name].Nodes[_selectedControl.Name].Checked = false;
-
-        //        }
-        //        else
-        //        {
-        //            treeView1.Nodes[_selectedControl.Name].Checked = false;
-        //        }
-        //        _selectedControl.Visible = false;
-        //    }
-        //}
 
         private void button1_Click(object sender, EventArgs e)
         {

@@ -19,7 +19,7 @@ namespace TNCThemeMaker.Parser
         public List<Theme> Themes = new List<Theme>();
         public List<Theme> EvidenceThemes = new List<Theme>();
         public List<ThemeImage> ThemeImages = new List<ThemeImage>();
-        public List<TextBox> TextBoxes { get; } = new List<TextBox>();
+        public List<RichTextBox> TextBoxes { get; } = new List<RichTextBox>();
 
         public ThemeParser(string pathToFile)
         {
@@ -82,7 +82,7 @@ namespace TNCThemeMaker.Parser
 
                 if (themeImage.ImageLocation == null)
                 {
-                    var rtb = new TextBox
+                    var rtb = new RichTextBox
                     {
                         Name = theme.Name,
                         Text = theme.Name,
