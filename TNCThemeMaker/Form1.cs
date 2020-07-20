@@ -35,12 +35,24 @@ namespace TNCThemeMaker
 
         private void DisplayInformation(object sender, EventArgs e)
         {
-            var clickedImage = (PictureBox)sender;
-            treeView1.SelectedNode = treeView1.Nodes[clickedImage.Name];
+            Control clickedControl;
+            if (sender is PictureBox)
+            {
+                var tempClickedControl = (PictureBox)sender;
+                this.selectedImage.ImageLocation = tempClickedControl.ImageLocation;
+                clickedControl = tempClickedControl;
+            }
+            else
+            {
+                var tempClickedControl = (RichTextBox)sender;
+                clickedControl = tempClickedControl;
+            }
+
+            treeView1.SelectedNode = treeView1.Nodes[clickedControl.Name];
             this._selectedControl = new RichTextBox();
-            this.selectedImage.ImageLocation = clickedImage.ImageLocation;
-            this.selectedImageLabel.Text = clickedImage.Name;
-            _selectedControl = clickedImage;
+
+            this.selectedImageLabel.Text = clickedControl.Name;
+            this._selectedControl = clickedControl;
             currentIndexLabel.Text = CustomForm.Controls.GetChildIndex(_selectedControl).ToString();
             //visibleCheckbox.Checked = selectedImage.Visible;
 
@@ -246,20 +258,41 @@ namespace TNCThemeMaker
             try
             {
                 _themeParser = new ThemeParser(file);
-                foreach (var theme in _themeParser.ThemeImages)
-                {
-                    theme.Click += DisplayInformation;
-                    CustomForm.Controls.Add(theme);
-                    Console.WriteLine(theme.Name);
-                    theme.Show();
-                }
 
-                foreach (var rtb in _themeParser.TextBoxes)
+                // Add the themes in the appropriate order
+                foreach (var themeName in _themeParser.ItemOrder)
                 {
-                    rtb.Click += DisplayRtfInformation;
-                    CustomForm.Controls.Add(rtb);
-                    rtb.Show();
+                    int themeIndex = _themeParser.ThemeImages.FindIndex(x => x.Name == themeName);
+                    int rtbIndex = _themeParser.TextBoxes.FindIndex(x => x.Name == themeName);
+                    if (themeIndex != -1)
+                    {
+                        _themeParser.ThemeImages[themeIndex].Click += DisplayInformation;
+                        CustomForm.Controls.Add(_themeParser.ThemeImages[themeIndex]);
+                    }
+                    else if (rtbIndex != -1)
+                    {
+                        _themeParser.TextBoxes[rtbIndex].Click += DisplayInformation;
+                        CustomForm.Controls.Add(_themeParser.TextBoxes[rtbIndex]);
+                    }
+                    else
+                    {
+                        throw new KeyNotFoundException($"Unable to find a value {themeName} in {file}");
+                    }
                 }
+                //foreach (var theme in _themeParser.ThemeImages)
+                //{
+                //    theme.Click += DisplayInformation;
+                //    CustomForm.Controls.Add(theme);
+                //    Console.WriteLine(theme.Name);
+                //    theme.Show();
+                //}
+
+                //foreach (var rtb in _themeParser.TextBoxes)
+                //{
+                //    rtb.Click += DisplayRtfInformation;
+                //    CustomForm.Controls.Add(rtb);
+                //    rtb.Show();
+                //}
 
                 _themeParser.ThemeDictionary.OrderBy(x => x.Key);
                 foreach (var key in _themeParser.ThemeDictionary.Keys)
